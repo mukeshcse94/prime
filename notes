@@ -1,0 +1,3 @@
+rcc->  == class component skeleton
+rsc->  == stateless component skeleton
+rsf->  == stateless named function skeleton
