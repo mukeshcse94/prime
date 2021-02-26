@@ -1,30 +1,17 @@
-import React, { Component } from 'react';
-
-
-function fruitesFun(a, b){ 
-  return console.log(this.apple, a, b);
-};
-
-const bindFruites = fruitesFun.bind({apple:'Apple'}, 'a', 'b');
-
-function callFun(c, d){
-  return console.log(this.book, c, d);
-}
-
-function applyFun(e,f){
-  console.log(this.cat, e, f);
-}
+import React, { Component } from 'react'
 
 export default class Login extends Component {
-  handleBind = () => {
-    bindFruites();
-    callFun.call({book: 'Book'}, 'c', 'd')
-    applyFun.apply({cat: 'Cat'}, ['e', 'f'])
-  }
+  state={
+    mockData:'["VALUE1", "VALUE2", "VALUE3", "VALUE4", "VALUE5"]'
+  };
+  
   render() {
+    const parseValue = JSON.parse(this.state.mockData);
     return (
       <div>
-        {this.handleBind()}
+        {parseValue.map(items => {
+          return <li>{items}</li>
+        })}
       </div>
     )
   }
