@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
 
+const callClouse = (msg) => (e) => {
+  console.log(`show message ${msg}`);
+}
+
 export default class Login extends Component {
-  handleCloser = (msg) => (e) => {
-    console.log(`call clousersssssssssssssssss ${msg}`, e);
-  }
-  
   render() {
     return (
       <div>
-        <button onClick={this.handleCloser('called closer')}>Button</button>
+        <button onClick={callClouse('call')}>Button</button>
       </div>
     )
   }
