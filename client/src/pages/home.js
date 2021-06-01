@@ -1,14 +1,15 @@
-import React, { useEffect } from 'react'
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-import Status from '../components/home/Status'
-import Posts from '../components/home/Posts'
-import RightSideBar from '../components/home/RightSideBar'
+import Status from '../components/home/Status';
+import Posts from '../components/home/Posts';
+import RightSideBar from '../components/home/RightSideBar';
 
-import { useSelector } from 'react-redux'
-import LoadIcon from '../images/loading.gif'
+import { useSelector } from 'react-redux';
+import LoadIcon from '../images/loading.gif';
 
 import Paginations from '../paginations/paginations';
+import LeftSideBar from '../sideBar/leftSideBar';
 
 
 
@@ -33,6 +34,7 @@ const Home = () => {
     return (
         <div className="home row mx-0">
             <div className="col-md-3">
+                <LeftSideBar />
                 <Link to="/userForm">Steps</Link>
             </div>
             <div className="col-md-6">

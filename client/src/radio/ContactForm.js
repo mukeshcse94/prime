@@ -52,7 +52,8 @@ const ContactForm = () => {
       />{' '}
         Professional
 
-      <div><input type='submit' value={current ? 'Update Contact' : 'types'} /></div>
+      <input type='submit' value={current ? 'Update Contact' : 'types'}
+        className='btn btn-light btn-sm' />
       {/* {current && (<div><button onClick={clearAll}>Clear</button> </div>)} */}
     </form>
   );

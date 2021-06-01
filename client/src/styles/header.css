@@ -51,24 +51,24 @@
     position: relative;
 }
 .header .search_form #search{
-    background: #fafafa;
+    background: #ffffff;
     border: 1px solid #ddd;
-    min-width: 250px;
+    min-width: 650px;
     width: 100%;
     outline: none;
     text-indent: 5px;
-    border-radius: 3px;
+    border-radius: 5px;
 }
 .header .search_form .search_icon{
     position: absolute;
     top: 50%;
-    left: 50%;
+    left: 12%;
     transform: translate(-50%, -50%);
-    font-size: 12px;
+    font-size: 16px;
     pointer-events: none;
 }
 .header .search_form .search_icon .material-icons{
-    font-size: 14px;
+    font-size: 16px;
     transform: translateY(3px);
 }
 .header .search_form .close_search{

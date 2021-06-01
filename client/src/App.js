@@ -1,28 +1,28 @@
-import { useEffect } from 'react'
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { useEffect } from 'react';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
-import PageRender from './customRouter/PageRender'
+import PageRender from './customRouter/PageRender';
 import PrivateRouter from './customRouter/PrivateRouter'
 
-import Home from './pages/home'
-import Login from './pages/login'
-import Register from './pages/register'
+import Home from './pages/home';
+import Login from './pages/login';
+import Register from './pages/register';
 
-import Alert from './components/alert/Alert'
-import Header from './components/header/Header'
-import StatusModal from './components/StatusModal'
+import Alert from './components/alert/Alert';
+import Header from './components/header/Header';
+import StatusModal from './components/StatusModal';
 
-import { useSelector, useDispatch } from 'react-redux'
-import { refreshToken } from './redux/actions/authAction'
-import { getPosts } from './redux/actions/postAction'
-import { getSuggestions } from './redux/actions/suggestionsAction'
+import { useSelector, useDispatch } from 'react-redux';
+import { refreshToken } from './redux/actions/authAction';
+import { getPosts } from './redux/actions/postAction';
+import { getSuggestions } from './redux/actions/suggestionsAction';
 
-import io from 'socket.io-client'
-import { GLOBALTYPES } from './redux/actions/globalTypes'
-import SocketClient from './SocketClient'
+import io from 'socket.io-client';
+import { GLOBALTYPES } from './redux/actions/globalTypes';
+import SocketClient from './SocketClient';
 
-import { getNotifies } from './redux/actions/notifyAction'
-import CallModal from './components/message/CallModal'
+import { getNotifies } from './redux/actions/notifyAction';
+import CallModal from './components/message/CallModal';
 import Peer from 'peerjs';
 
 import UserForm from './stepForm/userForm';

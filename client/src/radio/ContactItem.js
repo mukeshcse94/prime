@@ -26,7 +26,7 @@ const ContactItem = ({ contact }) => {
         </span>
       </h3>
 
-      {/* <p>
+      <p>
         <button
           className='btn btn-dark btn-sm'
           onClick={() => setCurrent(contact)}
@@ -36,7 +36,7 @@ const ContactItem = ({ contact }) => {
         <button className='btn btn-danger btn-sm' onClick={onDelete}>
           Delete
         </button>
-      </p> */}
+      </p>
     </div>
   );
 };

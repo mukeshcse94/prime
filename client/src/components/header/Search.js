@@ -1,9 +1,11 @@
-import React, { useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { getDataAPI } from '../../utils/fetchData'
-import { GLOBALTYPES } from '../../redux/actions/globalTypes'
-import UserCard from '../UserCard'
-import LoadIcon from '../../images/loading.gif'
+import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { Form } from 'react-bootstrap';
+
+import { getDataAPI } from '../../utils/fetchData';
+import { GLOBALTYPES } from '../../redux/actions/globalTypes';
+import UserCard from '../UserCard';
+import LoadIcon from '../../images/loading.gif';
 
 const Search = () => {
     const [search, setSearch] = useState('')
@@ -37,7 +39,8 @@ const Search = () => {
 
     return (
         <form className="search_form" onSubmit={handleSearch}>
-            <input type="text" name="search" value={search} id="search" title="Enter to Search"
+            {/* <Form.Control size="sm" type="text" placeholder="Small text" /> */}
+            <Form.Control size="sm" input type="text" name="search" value={search} id="search" title="Enter to Search"
                 onChange={e => setSearch(e.target.value.toLowerCase().replace(/ /g, ''))} />
 
             <div className="search_icon" style={{ opacity: search ? 0 : 0.3 }}>

@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { checkImage } from '../../utils/imageUpload'
-import { GLOBALTYPES } from '../../redux/actions/globalTypes'
-import { updateProfileUser } from '../../redux/actions/profileAction'
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { checkImage } from '../../utils/imageUpload';
+import { GLOBALTYPES } from '../../redux/actions/globalTypes';
+import { updateProfileUser } from '../../redux/actions/profileAction';
 
 const EditProfile = ({ setOnEdit }) => {
     const initState = {
@@ -44,9 +44,9 @@ const EditProfile = ({ setOnEdit }) => {
 
     return (
         <div className="edit_profile">
-            <button className="btn btn-danger btn_close"
+            <button className="btn btn-info btn_close" style={{ borderRadius: '50%' }}
                 onClick={() => setOnEdit(false)}>
-                Close
+                X
             </button>
 
             <form onSubmit={handleSubmit}>
@@ -118,4 +118,4 @@ const EditProfile = ({ setOnEdit }) => {
     )
 }
 
-export default EditProfile
+export default EditProfile;

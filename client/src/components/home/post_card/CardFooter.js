@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { likePost, unLikePost, savePost, unSavePost } from '../../../redux/actions/postAction'
 import ShareModal from '../../ShareModal'
 import { BASE_URL } from '../../../utils/config'
-import RadioBtn from '../../../radio/radioBtn';
+// import RadioBtn from '../../../radio/radioBtn';
 
 
 const CardFooter = ({ post }) => {
@@ -114,7 +114,7 @@ const CardFooter = ({ post }) => {
                 isShare && <ShareModal url={`${BASE_URL}/post/${post._id}`} theme={theme} />
             }
 
-            <RadioBtn />
+            {/* <RadioBtn /> */}
         </div>
     )
 }
