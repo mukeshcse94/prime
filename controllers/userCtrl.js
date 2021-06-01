@@ -1,101 +1,138 @@
 const Users = require('../models/userModel')
+const Payments = require('../models/paymentModel')
+const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
 
 const userCtrl = {
-    searchUser: async (req, res) => {
+    register: async (req, res) =>{
         try {
-            const users = await Users.find({username: {$regex: req.query.username}})
-            .limit(10).select("fullname username avatar")
-            
-            res.json({users})
+            const {name, email, password} = req.body;
+
+            const user = await Users.findOne({email})
+            if(user) return res.status(400).json({msg: "The email already exists."})
+
+            if(password.length < 6) 
+                return res.status(400).json({msg: "Password is at least 6 characters long."})
+
+            // Password Encryption
+            const passwordHash = await bcrypt.hash(password, 10)
+            const newUser = new Users({
+                name, email, password: passwordHash
+            })
+
+            // Save mongodb
+            await newUser.save()
+
+            // Then create jsonwebtoken to authentication
+            const accesstoken = createAccessToken({id: newUser._id})
+            const refreshtoken = createRefreshToken({id: newUser._id})
+
+            res.cookie('refreshtoken', refreshtoken, {
+                httpOnly: true,
+                path: '/user/refresh_token',
+                maxAge: 7*24*60*60*1000 // 7d
+            })
+
+            res.json({accesstoken})
+
         } catch (err) {
             return res.status(500).json({msg: err.message})
         }
     },
-    getUser: async (req, res) => {
+    login: async (req, res) =>{
         try {
-            const user = await Users.findById(req.params.id).select('-password')
-            .populate("followers following", "-password")
+            const {email, password} = req.body;
+
+            const user = await Users.findOne({email})
             if(!user) return res.status(400).json({msg: "User does not exist."})
-            
-            res.json({user})
-        } catch (err) {
-            return res.status(500).json({msg: err.message})
-        }
-    },
-    updateUser: async (req, res) => {
-        try {
-            const { avatar, fullname, mobile, address, story, website, gender } = req.body
-            if(!fullname) return res.status(400).json({msg: "Please add your full name."})
 
-            await Users.findOneAndUpdate({_id: req.user._id}, {
-                avatar, fullname, mobile, address, story, website, gender
+            const isMatch = await bcrypt.compare(password, user.password)
+            if(!isMatch) return res.status(400).json({msg: "Incorrect password."})
+
+            // If login success , create access token and refresh token
+            const accesstoken = createAccessToken({id: user._id})
+            const refreshtoken = createRefreshToken({id: user._id})
+
+            res.cookie('refreshtoken', refreshtoken, {
+                httpOnly: true,
+                path: '/user/refresh_token',
+                maxAge: 7*24*60*60*1000 // 7d
             })
 
-            res.json({msg: "Update Success!"})
+            res.json({accesstoken})
 
         } catch (err) {
             return res.status(500).json({msg: err.message})
         }
     },
-    follow: async (req, res) => {
+    logout: async (req, res) =>{
         try {
-            const user = await Users.find({_id: req.params.id, followers: req.user._id})
-            if(user.length > 0) return res.status(500).json({msg: "You followed this user."})
-
-            const newUser = await Users.findOneAndUpdate({_id: req.params.id}, { 
-                $push: {followers: req.user._id}
-            }, {new: true}).populate("followers following", "-password")
-
-            await Users.findOneAndUpdate({_id: req.user._id}, {
-                $push: {following: req.params.id}
-            }, {new: true})
-
-            res.json({newUser})
-
+            res.clearCookie('refreshtoken', {path: '/user/refresh_token'})
+            return res.json({msg: "Logged out"})
         } catch (err) {
             return res.status(500).json({msg: err.message})
         }
     },
-    unfollow: async (req, res) => {
+    refreshToken: (req, res) =>{
         try {
+            const rf_token = req.cookies.refreshtoken;
+            if(!rf_token) return res.status(400).json({msg: "Please Login or Register"})
 
-            const newUser = await Users.findOneAndUpdate({_id: req.params.id}, { 
-                $pull: {followers: req.user._id}
-            }, {new: true}).populate("followers following", "-password")
+            jwt.verify(rf_token, process.env.REFRESH_TOKEN_SECRET, (err, user) =>{
+                if(err) return res.status(400).json({msg: "Please Login or Register"})
 
-            await Users.findOneAndUpdate({_id: req.user._id}, {
-                $pull: {following: req.params.id}
-            }, {new: true})
+                const accesstoken = createAccessToken({id: user.id})
 
-            res.json({newUser})
-
-        } catch (err) {
-            return res.status(500).json({msg: err.message})
-        }
-    },
-    suggestionsUser: async (req, res) => {
-        try {
-            const newArr = [...req.user.following, req.user._id]
-
-            const num  = req.query.num || 10
-
-            const users = await Users.aggregate([
-                { $match: { _id: { $nin: newArr } } },
-                { $sample: { size: Number(num) } },
-                { $lookup: { from: 'users', localField: 'followers', foreignField: '_id', as: 'followers' } },
-                { $lookup: { from: 'users', localField: 'following', foreignField: '_id', as: 'following' } },
-            ]).project("-password")
-
-            return res.json({
-                users,
-                result: users.length
+                res.json({accesstoken})
             })
 
         } catch (err) {
             return res.status(500).json({msg: err.message})
         }
+        
     },
+    getUser: async (req, res) =>{
+        try {
+            const user = await Users.findById(req.user.id).select('-password')
+            if(!user) return res.status(400).json({msg: "User does not exist."})
+
+            res.json(user)
+        } catch (err) {
+            return res.status(500).json({msg: err.message})
+        }
+    },
+    addCart: async (req, res) =>{
+        try {
+            const user = await Users.findById(req.user.id)
+            if(!user) return res.status(400).json({msg: "User does not exist."})
+
+            await Users.findOneAndUpdate({_id: req.user.id}, {
+                cart: req.body.cart
+            })
+
+            return res.json({msg: "Added to cart"})
+        } catch (err) {
+            return res.status(500).json({msg: err.message})
+        }
+    },
+    history: async(req, res) =>{
+        try {
+            const history = await Payments.find({user_id: req.user.id})
+
+            res.json(history)
+        } catch (err) {
+            return res.status(500).json({msg: err.message})
+        }
+    }
+ }
+
+
+const createAccessToken = (user) =>{
+    return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '11m'})
+}
+const createRefreshToken = (user) =>{
+    return jwt.sign(user, process.env.REFRESH_TOKEN_SECRET, {expiresIn: '7d'})
 }
 
-
 module.exports = userCtrl
+

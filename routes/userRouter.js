@@ -1,19 +1,20 @@
 const router = require('express').Router()
-const auth = require("../middleware/auth")
-const userCtrl = require("../controllers/userCtrl")
+const userCtrl = require('../controllers/userCtrl')
+const auth = require('../middleware/auth')
 
+router.post('/register', userCtrl.register)
 
-router.get('/search', auth, userCtrl.searchUser)
+router.post('/login', userCtrl.login)
 
-router.get('/user/:id', auth, userCtrl.getUser)
+router.get('/logout', userCtrl.logout)
 
-router.patch('/user', auth, userCtrl.updateUser)
+router.get('/refresh_token', userCtrl.refreshToken)
 
-router.patch('/user/:id/follow', auth, userCtrl.follow)
-router.patch('/user/:id/unfollow', auth, userCtrl.unfollow)
+router.get('/infor', auth,  userCtrl.getUser)
 
-router.get('/suggestionsUser', auth, userCtrl.suggestionsUser)
+router.patch('/addcart', auth, userCtrl.addCart)
 
+router.get('/history', auth, userCtrl.history)
 
 
 module.exports = router
