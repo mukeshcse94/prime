@@ -12,8 +12,8 @@ const Header = () => {
 
                 <Link to="/" className="logo">
                     <h1 className="navbar-brand text-uppercase p-0 m-0"
-                    onClick={() => window.scrollTo({top: 0})}>
-                        V-Network
+                        onClick={() => window.scrollTo({ top: 0 })}>
+                        ScketchIdeas
                     </h1>
                 </Link>
 

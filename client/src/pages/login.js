@@ -3,6 +3,7 @@ import { Link, useHistory } from 'react-router-dom'
 import { login } from '../redux/actions/authAction'
 import { useDispatch, useSelector } from 'react-redux'
 import Recapcha from '../recapcha/recapcha';
+import SocialSignin from '../googleSignIn/socialSigin';
 
 
 const Login = () => {
@@ -33,7 +34,7 @@ const Login = () => {
     return (
         <div className="auth_page">
             <form onSubmit={handleSubmit}>
-                <h3 className="text-uppercase text-center mb-4">V-Network</h3>
+                <h3 className="text-uppercase text-center mb-4">ShareIdeas</h3>
 
                 <div className="form-group">
                     <label htmlFor="exampleInputEmail1">Email address</label>
@@ -65,6 +66,7 @@ const Login = () => {
                     disabled={email && password ? false : true}>
                     Login
                 </button>
+                <SocialSignin />
 
                 <p className="my-2">
                     You don't have an account? <Link to="/register" style={{ color: "crimson" }}>Register Now</Link>

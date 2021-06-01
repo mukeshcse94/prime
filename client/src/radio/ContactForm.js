@@ -5,15 +5,15 @@ const ContactForm = () => {
   const contactContext = useContext(GlobalContext);
 
   const { addContact, updateContact, clearCurrent, current } = contactContext;
-  const [contact, setContact] = useState({ name: '', type: 'personal' });
-  const { name, type } = contact;
+  const [contact, setContact] = useState({ type: 'personal' });
+  const { type } = contact;
 
 
   useEffect(() => {
     if (current !== null) {
       setContact(current);
     } else {
-      setContact({ name: '', type: 'personal' });
+      setContact({ type: 'personal' });
     }
   }, [contactContext, current]);
 
@@ -40,8 +40,7 @@ const ContactForm = () => {
 
   return (
     <form onSubmit={onSubmit}>
-      <p className='text-primary' style={{ paddingTop: 20 }}>{current ? 'Edit User' : 'Add User'}</p>
-      <input type='text' placeholder='Name' name='name' value={name} onChange={onChange} />
+      {/* <p className='text-primary' style={{ paddingTop: 20 }}>{current ? 'Edit User' : 'Add User'}</p> */}
 
       <input type='radio' name='type' value='personal' checked={type === 'personal'}
         onChange={onChange}
@@ -53,8 +52,8 @@ const ContactForm = () => {
       />{' '}
         Professional
 
-      <div><input type='submit' value={current ? 'Update Contact' : 'Add Contact'} /></div>
-      {current && (<div><button onClick={clearAll}>Clear</button> </div>)}
+      <div><input type='submit' value={current ? 'Update Contact' : 'types'} /></div>
+      {/* {current && (<div><button onClick={clearAll}>Clear</button> </div>)} */}
     </form>
   );
 };

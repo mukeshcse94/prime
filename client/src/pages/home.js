@@ -8,7 +8,6 @@ import RightSideBar from '../components/home/RightSideBar'
 import { useSelector } from 'react-redux'
 import LoadIcon from '../images/loading.gif'
 
-import SocialSignin from '../googleSignIn/socialSigin';
 import Paginations from '../paginations/paginations';
 
 
@@ -33,8 +32,7 @@ const Home = () => {
 
     return (
         <div className="home row mx-0">
-            <div className="col-md-2">
-                <SocialSignin />
+            <div className="col-md-3">
                 <Link to="/userForm">Steps</Link>
             </div>
             <div className="col-md-6">
@@ -49,7 +47,7 @@ const Home = () => {
 
             </div>
             {/* <Paginations /> */}
-            <div className="col-md-4">
+            <div className="col-md-3">
                 <RightSideBar />
             </div>
         </div>

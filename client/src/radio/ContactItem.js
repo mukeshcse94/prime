@@ -5,7 +5,7 @@ const ContactItem = ({ contact }) => {
   const contactContext = useContext(GlobalContext);
   const { deleteContact, setCurrent, clearCurrent } = contactContext;
 
-  const { _id, name, type } = contact;
+  const { _id, type } = contact;
 
   const onDelete = () => {
     deleteContact(_id);
@@ -15,9 +15,8 @@ const ContactItem = ({ contact }) => {
   return (
     <div className='card bg-light'>
       <h3 className='text-primary text-left'>
-        {name}{' '}
         <span
-          style={{ float: 'right' }}
+          style={{ float: 'right', marginTop: '-40px' }}
           className={
             'badge ' +
             (type === 'professional' ? 'badge-success' : 'badge-primary')
@@ -27,7 +26,7 @@ const ContactItem = ({ contact }) => {
         </span>
       </h3>
 
-      <p>
+      {/* <p>
         <button
           className='btn btn-dark btn-sm'
           onClick={() => setCurrent(contact)}
@@ -37,7 +36,7 @@ const ContactItem = ({ contact }) => {
         <button className='btn btn-danger btn-sm' onClick={onDelete}>
           Delete
         </button>
-      </p>
+      </p> */}
     </div>
   );
 };
